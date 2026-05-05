@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white text-gray-900 antialiased transition-colors duration-300;
+  }
+  .dark body {
+    @apply bg-[#0A0C10] text-gray-50;
+  }
+}
+
+@layer components {
+  /* Neon Hover Effect wrapper */
+  .neon-card-wrapper {
+    @apply relative overflow-hidden rounded-xl p-[2px] z-10 transition-transform duration-300;
+  }
+  
+  .neon-card-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -2px; /* Ensure it covers perfectly behind the card border */
+    background: linear-gradient(
+      115deg, 
+      #4285F4, 
+      #EA4335, 
+      #FBBC05, 
+      #34A853, 
+      #4285F4,
+      #EA4335
+    );
+    background-size: 300% 300%;
+    animation: neon-gradient-flow 4s ease-in-out infinite alternate;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    z-index: -2;
+  }
+  
+  .neon-card-wrapper:hover::before {
+    opacity: 1;
+  }
+  
+  .neon-card-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    @apply bg-white dark:bg-[#0D1117] rounded-xl;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  /* Fallback border for when not hovering */
+  .neon-card-inner {
+    @apply w-full h-full rounded-xl bg-white dark:bg-[#0D1117] border border-gray-200 dark:border-slate-800/50 transition-colors z-10 relative;
+  }
+  
+  .neon-card-wrapper:hover .neon-card-inner {
+    @apply border-transparent;
+  }
+  
+  /* Variant for Alt background like Careers */
+  .neon-card-alt-inner {
+    @apply w-full h-full rounded-[calc(0.75rem-1px)] bg-white dark:bg-slate-900/50 border border-gray-200 dark:border-slate-800 transition-colors z-10 relative;
+  }
+  
+  .neon-card-wrapper:hover .neon-card-alt-inner {
+    @apply border-transparent dark:bg-slate-900/80;
+  }
+}
+
+@keyframes neon-gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
